@@ -6,8 +6,8 @@ public class Time {
      * @param t time in string.
      * @return the time in int.
      */
-    public static int TimetoInt(String t){
-        int time=Integer.parseInt(t);
+    public static long TimetoInt(String t){
+        Long time= Long.parseLong(t);
         return time;
     }
 
@@ -16,7 +16,7 @@ public class Time {
      * @param t time i int.
      * @return the time in string.
      */
-    public static String TimeToString(Integer t){
+    public static String TimeToString(Long t){
         String time=t.toString();
         return time;
     }
