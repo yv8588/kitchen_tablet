@@ -34,7 +34,6 @@ public class show extends AppCompatActivity {
     ArrayList<Meal>[]allMealShow;
     LinkedList<String>bonId;
     BroadcastReceiver minuteUpdateRciver;
-    ArrayAdapter<String>adp;
     ValueEventListener vel;
     ListView[] all_lists;
     ArrayAdapter<String>[]all_adapters;
@@ -80,7 +79,6 @@ public class show extends AppCompatActivity {
                         all_adapters[i].notifyDataSetChanged();
                     }
                     else {
-                        ArrayList<String>TMP=new ArrayList<>();
                         meal_order_main.add(tmp);
                         bonId.add(tmp.getID());
 
@@ -90,25 +88,25 @@ public class show extends AppCompatActivity {
                                 meal_order_main.remove(j);
                             }
                         }
-                        int l=0;
-                        while (l<8&&l<meal_order_main.size()){
-                            b=meal_order_main.get(l);
-                            TMP.add(b.getNote());
-                            TMP.add(b.getTime());
-                            int i=0;
-                            while(i<b.getShow().size()){
-                                if(b.getShow().get(i)==true) {
-                                    TMP.add(b.getB().get(i).toString());
-                                }
-                                i++;
-                            }
-                            allMealShows[l]=TMP;
-                            TMP.clear();   
-                            all_adapters[l]=new ArrayAdapter<String>(getApplicationContext(), androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,allMealShows[l]);
-                            all_lists[l].setAdapter(adp);
-                            l++;
-                        }
                     }
+                }
+                int l=0;
+                while (l<8&&l<meal_order_main.size()){
+                    ArrayList<String>TMP=new ArrayList<>();
+                    b=meal_order_main.get(l);
+                    TMP.add(b.getNote());
+                    TMP.add(b.getTime());
+                    int i=0;
+                    while(i<b.getShow().size()){
+                        if(b.getShow().get(i)==true) {
+                            TMP.add(b.getB().get(i).toString());
+                        }
+                        i++;
+                    }
+                    allMealShows[l]=TMP;
+                    all_adapters[l]=new ArrayAdapter<String>(getApplicationContext(), androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,allMealShows[l]);
+                    all_lists[l].setAdapter(all_adapters[l]);
+                    l++;
                 }
             }
             @Override
@@ -164,7 +162,6 @@ public class show extends AppCompatActivity {
         minuteUpdateRciver=new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                Toast.makeText(context, "hi", Toast.LENGTH_SHORT).show();
                 String time=new SimpleDateFormat("HHmmss").format(new Date());
                 long t=Time.TimetoInt(time)-Time.TimetoInt(meal_order_main.getFirst().getTime().substring(0,5));
                 time1.setText("time"+Time.TimeToString(t));
