@@ -20,4 +20,20 @@ public class Time {
         String time=t.toString();
         return time;
     }
+
+    /**
+     * reverse a string.
+     * @param str the string.
+     * @return reversed string.
+     */
+    public static String reverse(String str){
+        char ch;
+        String nstr="";
+        for (int i=0; i<str.length(); i++)
+        {
+            ch= str.charAt(i); //extracts each character
+            nstr= ch+nstr; //adds each character in front of the existing string
+        }
+        return nstr;
+    }
 }

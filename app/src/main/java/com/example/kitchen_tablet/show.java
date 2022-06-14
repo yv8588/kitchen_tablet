@@ -13,11 +13,9 @@ import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
@@ -63,20 +61,20 @@ public class show extends AppCompatActivity {
                     Bon tmp=data.getValue(Bon.class);
                     if(bonId.contains(tmp.getID())) {
                         int i = bonId.indexOf(tmp.getID());
+                        if(i<8){
                         meal_order_main.add(i, tmp);
-                        ArrayList<String>TMPMEALS=new ArrayList<>();
+                        ArrayList<String>TMPMEALS=allMealShows[i];
                         b=meal_order_main.get(i);
-                        TMPMEALS.add(b.getNote());
-                        TMPMEALS.add(b.getTime());
                         int k = 0;
                         while (k < tmp.getShow().size()) {
-                            if (b.getShow().get(k) == true) {
-                                TMPMEALS.add(b.getB().get(k).toString());
+                            if (!b.getShow().get(k) == true) {
+                                TMPMEALS.remove(k);
                             }
                             k++;
                         }
                         allMealShows[i]=TMPMEALS;
                         all_adapters[i].notifyDataSetChanged();
+                        }
                     }
                     else {
                         meal_order_main.add(tmp);
@@ -95,7 +93,7 @@ public class show extends AppCompatActivity {
                     ArrayList<String>TMP=new ArrayList<>();
                     b=meal_order_main.get(l);
                     TMP.add(b.getNote());
-                    TMP.add(b.getTime());
+                    TMP.add(Time.reverse(b.getTime()));
                     int i=0;
                     while(i<b.getShow().size()){
                         if(b.getShow().get(i)==true) {
@@ -162,9 +160,13 @@ public class show extends AppCompatActivity {
         minuteUpdateRciver=new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                String time=new SimpleDateFormat("HHmmss").format(new Date());
-                long t=Time.TimetoInt(time)-Time.TimetoInt(meal_order_main.getFirst().getTime().substring(0,5));
-                time1.setText("time"+Time.TimeToString(t));
+                int k=0;
+                while(k<8&&k<meal_order_main.size()){
+                    String time=new SimpleDateFormat("HHmmss").format(new Date());
+                    long t=Time.TimetoInt(time)-Time.TimetoInt(meal_order_main.getFirst().getTime().substring(0,5));
+                    allTextViews[k].setText(Time.TimeToString(t));
+                    k++;
+                }
             }
         };
         registerReceiver(minuteUpdateRciver,intentFilter);
