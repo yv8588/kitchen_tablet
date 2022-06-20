@@ -26,6 +26,7 @@ import java.util.LinkedList;
 public class show extends AppCompatActivity {
     Bon b;
     LinkedList<Bon> meal_order_main;
+    int count=0;
     LinkedList<Meal>mealshow;
     ArrayList<String>mealshows;
     ArrayList<String>[]allMealShows;
@@ -133,6 +134,14 @@ public class show extends AppCompatActivity {
         time6=(TextView)findViewById(R.id.time6);
         time7=(TextView)findViewById(R.id.time7);
         time8=(TextView)findViewById(R.id.time8);
+        time1.setText("0");
+        time2.setText("0");
+        time3.setText("0");
+        time4.setText("0");
+        time5.setText("0");
+        time6.setText("0");
+        time7.setText("0");
+        time8.setText("0");
         all_lists= new ListView[]{list1, list2, list3, list4, list5, list6, list7, list8};
         allTextViews= new TextView[]{time1,time2,time3,time4,time5,time6,time7,time8};
     }
@@ -160,11 +169,11 @@ public class show extends AppCompatActivity {
         minuteUpdateRciver=new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
+                count++;
                 int k=0;
                 while(k<8&&k<meal_order_main.size()){
-                    String time=new SimpleDateFormat("HHmmss").format(new Date());
-                    long t=Time.TimetoInt(time)-Time.TimetoInt(meal_order_main.getFirst().getTime().substring(0,5));
-                    allTextViews[k].setText(Time.TimeToString(t));
+                    Integer time=Integer.parseInt(allTextViews[k].getText().toString())+count;
+                    allTextViews[k].setText(time.toString());
                     k++;
                 }
             }

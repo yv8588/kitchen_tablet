@@ -1,5 +1,9 @@
 package com.example.kitchen_tablet;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class Time {
     /**
      * makes a string time into int;
@@ -22,17 +26,18 @@ public class Time {
     }
 
     /**
-     * reverse a string.
+     * reverse a string into date format.
      * @param str the string.
      * @return reversed string.
      */
     public static String reverse(String str){
-        char ch;
         String nstr="";
-        for (int i=0; i<str.length(); i++)
-        {
-            ch= str.charAt(i); //extracts each character
-            nstr= ch+nstr; //adds each character in front of the existing string
+        SimpleDateFormat originalFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+        try {
+            Date date = originalFormat.parse(str);
+            nstr=date.toString();
+        } catch (ParseException e) {
+            e.printStackTrace();
         }
         return nstr;
     }
